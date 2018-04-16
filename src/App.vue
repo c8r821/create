@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Home from './components/Home'
+import Home from './views/Home'
 
 export default {
   name: 'App',
@@ -21,4 +21,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
+</style>
+<style lang="scss">
+  $family-sans-serif: 'Product Sans';
+  @import "~bulma/sass/utilities/_all";
+  @import "~bulma";
+  @import "~buefy/src/scss/buefy";
 </style>

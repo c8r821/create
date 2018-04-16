@@ -5,8 +5,6 @@ import App from './App'
 import Buefy from 'buefy'
 import Cleave from 'cleave.js'
 
-import 'buefy/lib/buefy.css'
-
 Vue.use(Buefy);
 Vue.directive('cleave', (el, binding) => {
   const input = el.querySelector('input')
