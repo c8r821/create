@@ -3,18 +3,22 @@
 import Vue from 'vue'
 import App from './App'
 import Buefy from 'buefy'
+import Axios from 'axios'
+import VueAxios from 'vue-axios'
 import Cleave from 'cleave.js'
 
-Vue.use(Buefy);
-Vue.directive('cleave', (el, binding) => {
-  const input = el.querySelector('input')
-  new Cleave(input, binding.value)
+Vue.use(Buefy, {
+  defaultIconPack: 'fas'
 });
-Vue.config.productionTip = false
+Vue.use(VueAxios, Axios);
+Vue.directive('cleave', (el, binding) => {
+  const input = el.querySelector('input');
+  new Cleave(input, binding.value);
+});
+Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   components: { App },
   template: '<App/>'
-})
+});

@@ -1,42 +1,40 @@
-const CC_TYPES = {
-    "American Express": /3[4,7]\d{13}/, /* AMEX */
-    "VISA": /4\d{15}/, /* VISA */
-    "Diners Club": /(30[0-59]\d{11})|(3095\d{10})|(36\d{12})|(3[8-9]\d{12})/, /* DINERS CLUB */
-    "MasterCard": /(5[1-5]|2[2-7])\d{14}/, /* MASTERCARD */
-    "JCB": /((2131|1800)\d{12})|(35\d{14})/, /* JCB */
-    "Discover": /(60110[0-9]\d{10})|((6011[23][0-9]|60114[0-9])\d{10})|(601174\d{10})|(60117[7-9]\d{10})|((60118[6-9]|60119[0-9])\d{10})|((64[4-9]|65[0-9])\d{13})/ /* DISCOVER */
-};
+import types from "./types"
 
-
+/* Functions alongside my list of card types and regular expressions to identify the card by number. */
 const getType = number => {
-    number = number.replace(/ /g, '');
-    for (let [type, regex] of Object.entries(CC_TYPES))
+    for (let {regex, ...type} of types)
         if (regex.test(number))
             return type;
 
     return null;
 }
 
+/* Calculates the sum of the credit card according to Luhn's algorithm */
 const cardSum = number => {
-    let sum = +number[number.length - 1];
-    const length = number.length;
-    const parity = length % 2;
+    let sum = 0;
+    let parity = number.length % 2;
 
-    for (let x = 0; x < length; x++) {
-        let num = +number[i];
+    for (let x = number.length - 2; x > -1; x--) {
+        let num = +number[x];
         if (x % 2 === parity)
             num *= 2;
         if (num > 9)
             num -= 9;
         sum += num;
     }
+
+    return sum;
 }
 
+/* Validated that the card is appropriately typed and also passes Luhn's algorithm via the check digit */
 const isValid = (number, type) => {
-    if (type === 'INVALID')
+    if (type === null)
         return false;
+
+    let sum = cardSum(number);
+    let check = +number[number.length - 1];
     
-    return (cardSum(number) % 10 === 0);
+    return ((sum * 9) % 10 === check);
 }
 
 
